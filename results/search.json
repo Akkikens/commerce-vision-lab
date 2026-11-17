@@ -1,0 +1,67 @@
+{
+  "name": "search",
+  "seed": 13,
+  "generated_at": "2026-11-17T12:50:58",
+  "environment": {
+    "python": "3.11.16",
+    "machine": "arm64",
+    "platform": "macOS-26.6.2",
+    "cpu": "Apple M5",
+    "torch": "2.15.0"
+  },
+  "catalog_size": 3000,
+  "index": "faiss",
+  "models": {
+    "clip-vit-b32": {
+      "text_title": {
+        "recall@1": 0.2507,
+        "recall@5": 0.5389,
+        "recall@10": 0.685
+      },
+      "text_attribute": {
+        "precision@10": 0.5026,
+        "recall@1": 0.7105
+      },
+      "image_near_duplicate": {
+        "recall@1": 0.978,
+        "recall@5": 0.998,
+        "recall@10": 0.998
+      },
+      "image_similar": {
+        "precision@10_same_type_and_colour": 0.2388,
+        "precision@10_same_type": 0.7906
+      },
+      "faiss_numpy_top10_agreement": 1.0,
+      "latency_ms_per_query_search_only": 0.025,
+      "index_build_ms": 1.22
+    },
+    "fashion-siglip": {
+      "text_title": {
+        "recall@1": 0.3317,
+        "recall@5": 0.6515,
+        "recall@10": 0.7665
+      },
+      "text_attribute": {
+        "precision@10": 0.5474,
+        "recall@1": 0.6842
+      },
+      "image_near_duplicate": {
+        "recall@1": 0.992,
+        "recall@5": 1.0,
+        "recall@10": 1.0
+      },
+      "image_similar": {
+        "precision@10_same_type_and_colour": 0.2576,
+        "precision@10_same_type": 0.8014
+      },
+      "faiss_numpy_top10_agreement": 1.0,
+      "latency_ms_per_query_search_only": 0.009,
+      "index_build_ms": 1.81
+    }
+  },
+  "queries": {
+    "title": 2689,
+    "attribute": 152,
+    "image": 500
+  }
+}
