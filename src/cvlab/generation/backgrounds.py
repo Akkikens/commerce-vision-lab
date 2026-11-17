@@ -28,7 +28,7 @@ class StubGenerator:
 
     def generate(self, prompt: str, size: tuple[int, int], seed: int) -> Image.Image:
         h = hashlib.sha1(f"{prompt}|{seed}".encode()).digest()
-        top, bottom = np.array(h[:3], np.float32), np.array(h[3:6], np.float32)
+        top, bottom = np.array(list(h[:3]), np.float32), np.array(list(h[3:6]), np.float32)
         w, hgt = size
         t = np.linspace(0, 1, hgt, dtype=np.float32)[:, None, None]
         grad = (1 - t) * top + t * bottom
