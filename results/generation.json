@@ -1,7 +1,7 @@
 {
   "name": "generation",
   "seed": 13,
-  "generated_at": "2026-11-17T12:59:44",
+  "generated_at": "2026-11-17T13:21:46",
   "environment": {
     "python": "3.11.16",
     "machine": "arm64",
@@ -18,7 +18,7 @@
       512
     ]
   },
-  "model_load_seconds": 14.9,
+  "model_load_seconds": 16.3,
   "splits": {
     "calibration_products": 10,
     "test_products": 20,
@@ -43,7 +43,7 @@
     "prompt_margin": 0.03,
     "mask_iou": 0.9572,
     "product_similarity": 0.9485,
-    "product_ssim": 0.7436,
+    "product_ssim": 0.8413,
     "colour_delta_e": 3.9113
   },
   "calibration": {
@@ -56,7 +56,7 @@
       "calibration_balanced_accuracy": 1.0
     },
     "product_ssim": {
-      "threshold": 0.7436,
+      "threshold": 0.8413,
       "calibration_balanced_accuracy": 1.0
     },
     "colour_delta_e": {
@@ -73,9 +73,9 @@
         "prompt_margin": 1
       },
       "seconds_per_image": {
-        "mean": 2.3194,
-        "min": 1.759,
-        "max": 3.059
+        "mean": 5.5778,
+        "min": 1.566,
+        "max": 36.247
       },
       "prompt_alignment": {
         "mean": 0.3024,
@@ -98,9 +98,9 @@
         "max": 0.9999
       },
       "product_ssim": {
-        "mean": 0.9377,
-        "min": 0.8657,
-        "max": 0.9818
+        "mean": 0.9994,
+        "min": 0.9981,
+        "max": 0.9999
       },
       "colour_delta_e": {
         "mean": 0.0805,
@@ -114,13 +114,13 @@
       "failed_checks": {
         "mask_iou": 8,
         "product_similarity": 20,
-        "product_ssim": 18,
+        "product_ssim": 19,
         "colour_delta_e": 20
       },
       "seconds_per_image": {
-        "mean": 3.6057,
-        "min": 2.943,
-        "max": 4.688
+        "mean": 11.8488,
+        "min": 2.65,
+        "max": 71.957
       },
       "prompt_alignment": {
         "mean": 0.3213,
@@ -143,9 +143,9 @@
         "max": 0.9401
       },
       "product_ssim": {
-        "mean": 0.5956,
-        "min": 0.385,
-        "max": 0.8886
+        "mean": 0.6443,
+        "min": 0.4287,
+        "max": 0.9305
       },
       "colour_delta_e": {
         "mean": 8.797,
@@ -163,9 +163,9 @@
         "colour_delta_e": 20
       },
       "seconds_per_image": {
-        "mean": 3.4689,
-        "min": 2.992,
-        "max": 4.151
+        "mean": 8.8386,
+        "min": 2.495,
+        "max": 40.334
       },
       "prompt_alignment": {
         "mean": 0.3473,
@@ -188,9 +188,9 @@
         "max": 0.9392
       },
       "product_ssim": {
-        "mean": 0.4971,
-        "min": 0.2457,
-        "max": 0.8606
+        "mean": 0.5378,
+        "min": 0.267,
+        "max": 0.9029
       },
       "colour_delta_e": {
         "mean": 12.9704,

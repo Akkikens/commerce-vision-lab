@@ -116,8 +116,10 @@ def main() -> None:
             print(f"  {p.id} {p.article_type} done")
         return rows
 
-    print("calibration split"); cal_rows = run(cal)
-    print("test split"); test_rows = run(test)
+    print("calibration split")
+    cal_rows = run(cal)
+    print("test split")
+    test_rows = run(test)
 
     # Calibrate preservation thresholds: composite (good) vs control (bad).
     th = Thresholds()

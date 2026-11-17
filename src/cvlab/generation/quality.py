@@ -36,10 +36,10 @@ class Thresholds:
     ``prompt_margin`` is set a priori."""
 
     prompt_margin: float = 0.03
-    mask_iou: float = 0.957
-    product_similarity: float = 0.949
-    product_ssim: float = 0.744
-    colour_delta_e: float = 3.91  # maximum mean CIE76 delta E
+    mask_iou: float = 0.9572
+    product_similarity: float = 0.9485
+    product_ssim: float = 0.8413
+    colour_delta_e: float = 3.9113  # maximum mean CIE76 delta E
 
 
 @dataclass
@@ -75,7 +75,11 @@ def _box(x: np.ndarray, r: int) -> np.ndarray:
 
 
 def masked_ssim(a: Image.Image, b: Image.Image, mask: np.ndarray, r: int = 3) -> float:
-    """Mean SSIM (grayscale, box window) over the masked pixels."""
+    """Mean SSIM (grayscale, box window) over pixels whose whole window is inside the mask.
+
+    Eroding the mask by the window radius keeps background pixels (which legitimately
+    differ between the scene and the reference) out of the product score.
+    """
     x = np.asarray(a.convert("L"), dtype=np.float64)
     y = np.asarray(b.convert("L"), dtype=np.float64)
     c1, c2 = (0.01 * 255) ** 2, (0.03 * 255) ** 2
@@ -84,7 +88,10 @@ def masked_ssim(a: Image.Image, b: Image.Image, mask: np.ndarray, r: int = 3) ->
     vy = _box(y * y, r) - my * my
     cxy = _box(x * y, r) - mx * my
     ssim = ((2 * mx * my + c1) * (2 * cxy + c2)) / ((mx**2 + my**2 + c1) * (vx + vy + c2))
-    return float(ssim[mask].mean()) if mask.any() else 0.0
+    inner = _box(mask.astype(np.float64), r) > 1 - 1e-9
+    if not inner.any():
+        inner = mask
+    return float(ssim[inner].mean()) if inner.any() else 0.0
 
 
 def _srgb_to_lab(rgb: np.ndarray) -> np.ndarray:
