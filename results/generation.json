@@ -1,0 +1,205 @@
+{
+  "name": "generation",
+  "seed": 13,
+  "generated_at": "2026-11-17T12:59:44",
+  "environment": {
+    "python": "3.11.16",
+    "machine": "arm64",
+    "platform": "macOS-26.6.2",
+    "cpu": "Apple M5",
+    "torch": "2.15.0"
+  },
+  "models": {
+    "segmenter": "rembg-u2net",
+    "generator": "sd-turbo-1step",
+    "gate_embedder": "clip-vit-b32",
+    "canvas": [
+      512,
+      512
+    ]
+  },
+  "model_load_seconds": 14.9,
+  "splits": {
+    "calibration_products": 10,
+    "test_products": 20,
+    "test_types": [
+      "Dresses",
+      "Heels",
+      "Jackets",
+      "Jeans",
+      "Kurtas",
+      "Shirts",
+      "Shorts",
+      "Sports Shoes",
+      "Sweatshirts",
+      "Tops",
+      "Track Pants",
+      "Trousers",
+      "Tshirts",
+      "Tunics"
+    ]
+  },
+  "thresholds": {
+    "prompt_margin": 0.03,
+    "mask_iou": 0.9572,
+    "product_similarity": 0.9485,
+    "product_ssim": 0.7436,
+    "colour_delta_e": 3.9113
+  },
+  "calibration": {
+    "mask_iou": {
+      "threshold": 0.9572,
+      "calibration_balanced_accuracy": 0.95
+    },
+    "product_similarity": {
+      "threshold": 0.9485,
+      "calibration_balanced_accuracy": 1.0
+    },
+    "product_ssim": {
+      "threshold": 0.7436,
+      "calibration_balanced_accuracy": 1.0
+    },
+    "colour_delta_e": {
+      "threshold": 3.9113,
+      "calibration_balanced_accuracy": 1.0
+    }
+  },
+  "test": {
+    "composite": {
+      "n": 20,
+      "pass_rate": 0.8,
+      "failed_checks": {
+        "mask_iou": 4,
+        "prompt_margin": 1
+      },
+      "seconds_per_image": {
+        "mean": 2.3194,
+        "min": 1.759,
+        "max": 3.059
+      },
+      "prompt_alignment": {
+        "mean": 0.3024,
+        "min": 0.2337,
+        "max": 0.3741
+      },
+      "prompt_margin": {
+        "mean": 0.1093,
+        "min": 0.0264,
+        "max": 0.1933
+      },
+      "mask_iou": {
+        "mean": 0.975,
+        "min": 0.8971,
+        "max": 0.9933
+      },
+      "product_similarity": {
+        "mean": 0.9988,
+        "min": 0.9964,
+        "max": 0.9999
+      },
+      "product_ssim": {
+        "mean": 0.9377,
+        "min": 0.8657,
+        "max": 0.9818
+      },
+      "colour_delta_e": {
+        "mean": 0.0805,
+        "min": 0.0383,
+        "max": 0.125
+      }
+    },
+    "harmonized@0.35": {
+      "n": 20,
+      "pass_rate": 0.0,
+      "failed_checks": {
+        "mask_iou": 8,
+        "product_similarity": 20,
+        "product_ssim": 18,
+        "colour_delta_e": 20
+      },
+      "seconds_per_image": {
+        "mean": 3.6057,
+        "min": 2.943,
+        "max": 4.688
+      },
+      "prompt_alignment": {
+        "mean": 0.3213,
+        "min": 0.2172,
+        "max": 0.4018
+      },
+      "prompt_margin": {
+        "mean": 0.1306,
+        "min": 0.0305,
+        "max": 0.2017
+      },
+      "mask_iou": {
+        "mean": 0.9542,
+        "min": 0.8736,
+        "max": 0.9835
+      },
+      "product_similarity": {
+        "mean": 0.8286,
+        "min": 0.5309,
+        "max": 0.9401
+      },
+      "product_ssim": {
+        "mean": 0.5956,
+        "min": 0.385,
+        "max": 0.8886
+      },
+      "colour_delta_e": {
+        "mean": 8.797,
+        "min": 4.1122,
+        "max": 18.9776
+      }
+    },
+    "control@0.8": {
+      "n": 20,
+      "pass_rate": 0.0,
+      "failed_checks": {
+        "mask_iou": 17,
+        "product_similarity": 20,
+        "product_ssim": 19,
+        "colour_delta_e": 20
+      },
+      "seconds_per_image": {
+        "mean": 3.4689,
+        "min": 2.992,
+        "max": 4.151
+      },
+      "prompt_alignment": {
+        "mean": 0.3473,
+        "min": 0.2363,
+        "max": 0.4024
+      },
+      "prompt_margin": {
+        "mean": 0.155,
+        "min": 0.0409,
+        "max": 0.2169
+      },
+      "mask_iou": {
+        "mean": 0.8907,
+        "min": 0.7663,
+        "max": 0.9724
+      },
+      "product_similarity": {
+        "mean": 0.7648,
+        "min": 0.4528,
+        "max": 0.9392
+      },
+      "product_ssim": {
+        "mean": 0.4971,
+        "min": 0.2457,
+        "max": 0.8606
+      },
+      "colour_delta_e": {
+        "mean": 12.9704,
+        "min": 5.7859,
+        "max": 24.792
+      }
+    }
+  },
+  "review_queue_items": 44,
+  "review_queue_rate_test": 0.7333,
+  "label_note": "composite=acceptable and control@0.8=unacceptable by construction, not by human judgement"
+}
