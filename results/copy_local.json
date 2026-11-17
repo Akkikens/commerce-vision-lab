@@ -1,0 +1,220 @@
+{
+  "name": "copy_local",
+  "seed": 13,
+  "generated_at": "2026-11-17T13:10:28",
+  "environment": {
+    "python": "3.11.16",
+    "machine": "arm64",
+    "platform": "macOS-26.6.2",
+    "cpu": "Apple M5",
+    "torch": "2.15.0"
+  },
+  "provider": "local:Qwen/Qwen2.5-0.5B-Instruct",
+  "n_products": 100,
+  "runs": {
+    "guarded": {
+      "first_draft": {
+        "parse_failure_rate": 0.0,
+        "any_violation_rate": 0.04,
+        "violation_rate_by_rule": {
+          "hallucinated_material": 0.04,
+          "colour_mismatch": 0.01
+        }
+      },
+      "pipeline": {
+        "accepted_first_draft": 0.96,
+        "accepted_after_repair": 0.0,
+        "fallback_to_template": 0.04,
+        "final_violation_rate": 0.0,
+        "seconds_per_product": {
+          "mean": 0.938,
+          "p95": 1.369
+        }
+      },
+      "example_violations": [
+        {
+          "attributes": {
+            "category": "Tops",
+            "colour": "Beige",
+            "gender": "Women",
+            "usage": "Casual"
+          },
+          "draft": {
+            "alt_text": "Beige Casual Tops",
+            "description": "A stylish and comfortable top made from high-quality cotton, featuring a simple design that's perfect for casual wear. Ideal for women looking to add a touch of style to their outfits."
+          },
+          "violations": [
+            "hallucinated_material: cotton"
+          ]
+        },
+        {
+          "attributes": {
+            "category": "Tops",
+            "colour": "Blue",
+            "gender": "Women",
+            "usage": "Casual",
+            "pattern": "printed"
+          },
+          "draft": {
+            "alt_text": "A casual women's top in blue printed pattern.",
+            "description": "A stylish and comfortable top made from high-quality cotton, featuring a bold print that adds a touch of color to your outfit. Perfect for everyday wear, this top is both functional and fashionable."
+          },
+          "violations": [
+            "hallucinated_material: cotton"
+          ]
+        },
+        {
+          "attributes": {
+            "category": "Kurtas",
+            "colour": "Red",
+            "gender": "Women",
+            "usage": "Ethnic",
+            "pattern": "solid"
+          },
+          "draft": {
+            "alt_text": "A vibrant red kurtala from the Kurtas collection designed for women's ethnic wear.",
+            "description": "Experience the bold and timeless elegance of a red kurtala, crafted from solid cotton, perfect for ethnic fashion enthusiasts seeking a stylish yet versatile piece."
+          },
+          "violations": [
+            "hallucinated_material: cotton"
+          ]
+        },
+        {
+          "attributes": {
+            "category": "Tops",
+            "colour": "White",
+            "gender": "Women",
+            "usage": "Casual"
+          },
+          "draft": {
+            "alt_text": "A casual top in white featuring women's clothing styles.",
+            "description": "A stylish and comfortable top made from high-quality cotton, designed to keep you cool and dry during your daily activities. Available in a variety of colors such as white, light grey, and beige, this top is perfect for both everyday wear and special occasions."
+          },
+          "violations": [
+            "hallucinated_material: cotton",
+            "colour_mismatch: grey (attribute: white)",
+            "colour_mismatch: beige (attribute: white)"
+          ]
+        }
+      ]
+    },
+    "minimal": {
+      "first_draft": {
+        "parse_failure_rate": 0.0,
+        "any_violation_rate": 0.3,
+        "violation_rate_by_rule": {
+          "hallucinated_material": 0.22,
+          "unsupported_claim": 0.1,
+          "alt_text_missing_colour": 0.02,
+          "colour_mismatch": 0.01
+        }
+      },
+      "pipeline": {
+        "accepted_first_draft": 0.7,
+        "accepted_after_repair": 0.01,
+        "fallback_to_template": 0.29,
+        "final_violation_rate": 0.0,
+        "seconds_per_product": {
+          "mean": 1.607,
+          "p95": 2.614
+        }
+      },
+      "example_violations": [
+        {
+          "attributes": {
+            "category": "Briefs",
+            "colour": "Brown",
+            "gender": "Women",
+            "usage": "Casual"
+          },
+          "draft": {
+            "alt_text": "A brown women's brief in casual style, perfect for everyday wear.",
+            "description": "Crafted from high-quality cotton, this versatile brief is designed to be both comfortable and stylish, making it an ideal choice for any woman looking to add a touch of elegance to their wardrobe."
+          },
+          "violations": [
+            "hallucinated_material: cotton"
+          ]
+        },
+        {
+          "attributes": {
+            "category": "Kurtas",
+            "colour": "Coffee Brown",
+            "gender": "Women",
+            "usage": "Ethnic"
+          },
+          "draft": {
+            "alt_text": "A cozy, stylish kurta in coffee brown, designed for women to wear during ethnic occasions.",
+            "description": "Crafted from high-quality cotton, this kurta features a soft, breathable fabric that feels luxurious against the skin. Its warm, inviting color of coffee brown adds an authentic touch to any ethnic setting. Perfect for ethnic events or special occasions where warmth and comfort are key."
+          },
+          "violations": [
+            "hallucinated_material: cotton",
+            "unsupported_claim: breathable"
+          ]
+        },
+        {
+          "attributes": {
+            "category": "Tops",
+            "colour": "Beige",
+            "gender": "Women",
+            "usage": "Casual"
+          },
+          "draft": {
+            "alt_text": "A lightweight, breathable top in beige fabric designed for casual wear.",
+            "description": "Crafted from soft, breathable cotton, this versatile top offers comfort and style in a chic, modern style."
+          },
+          "violations": [
+            "hallucinated_material: cotton",
+            "unsupported_claim: breathable"
+          ]
+        },
+        {
+          "attributes": {
+            "category": "Heels",
+            "colour": "Gold",
+            "gender": "Women",
+            "usage": "Casual"
+          },
+          "draft": {
+            "alt_text": "Gold leather heels for women, casual wear.",
+            "description": "Elevate your style with our Gold leather heels, perfect for everyday wear. Available in various colors."
+          },
+          "violations": [
+            "hallucinated_material: leather"
+          ]
+        },
+        {
+          "attributes": {
+            "category": "Kurtas",
+            "colour": "Beige",
+            "gender": "Women",
+            "usage": "Ethnic",
+            "pattern": "printed"
+          },
+          "draft": {
+            "alt_text": "A vibrant Beige Kurta with a printed pattern, perfect for ethnic fashion enthusiasts.",
+            "description": "Crafted from soft cotton, this stylish Kurta features a bold print of ethnic-inspired designs, making it an ideal choice for women looking to express their cultural identity."
+          },
+          "violations": [
+            "hallucinated_material: cotton"
+          ]
+        },
+        {
+          "attributes": {
+            "category": "Formal Shoes",
+            "colour": "Brown",
+            "gender": "Men",
+            "usage": "Formal"
+          },
+          "draft": {
+            "alt_text": "A brown formal men's shoe with a sleek design, suitable for formal occasions.",
+            "description": "Crafted from high-quality leather, this stylish men's shoe features a sleek, modern design that complements any outfit. Perfect for formal events or special occasions, it offers comfort and style in a versatile form."
+          },
+          "violations": [
+            "hallucinated_material: leather"
+          ]
+        }
+      ]
+    }
+  },
+  "note": "First-draft and pipeline passes are separate greedy generations, so the pipeline's first draft equals the measured first draft. The repair prompt always carries the guarded rules' violations as feedback."
+}
