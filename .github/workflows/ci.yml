@@ -28,6 +28,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           cache: pip
+          cache-dependency-path: pyproject.toml
       - run: pip install -e ".[dev]" faiss-cpu
       - name: Package imports without torch
         run: python -c "import cvlab.api, sys; assert 'torch' not in sys.modules"

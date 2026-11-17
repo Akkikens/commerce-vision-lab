@@ -12,6 +12,16 @@ def pct(x: float) -> str:
     return f"{100 * x:.1f}%"
 
 
+def wilson(p: float, n: int, z: float = 1.96) -> tuple[float, float]:
+    """95% Wilson score interval for a proportion."""
+    if n == 0:
+        return 0.0, 1.0
+    denom = 1 + z * z / n
+    centre = (p + z * z / (2 * n)) / denom
+    half = z * ((p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5) / denom
+    return max(0.0, centre - half), min(1.0, centre + half)
+
+
 def load(name: str) -> dict | None:
     p = R / f"{name}.json"
     return json.loads(p.read_text()) if p.exists() else None
@@ -64,11 +74,13 @@ def search(d: dict) -> list[str]:
 
 def generation(d: dict) -> list[str]:
     t = d["test"]
-    out = ["| Variant (test n) | Gate pass rate | Product SSIM | Colour ΔE | Mask IoU | "
+    out = ["| Variant (test n) | Gate pass rate (95% CI) | Product SSIM | Colour ΔE | Mask IoU | "
            "Product CLIP sim | Prompt margin | Seconds/image |",
            "|---|---|---|---|---|---|---|---|"]
     for v, r in t.items():
-        out.append(f"| {v} ({r['n']}) | {pct(r['pass_rate'])} | {r['product_ssim']['mean']:.3f} | "
+        lo, hi = wilson(r["pass_rate"], r["n"])
+        out.append(f"| {v} ({r['n']}) | {pct(r['pass_rate'])} ({pct(lo)}–{pct(hi)}) | "
+                   f"{r['product_ssim']['mean']:.3f} | "
                    f"{r['colour_delta_e']['mean']:.2f} | {r['mask_iou']['mean']:.3f} | "
                    f"{r['product_similarity']['mean']:.3f} | {r['prompt_margin']['mean']:.3f} | "
                    f"{r['seconds_per_image']['mean']:.2f} |")

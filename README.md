@@ -77,11 +77,11 @@ Catalog 3000 items, index `faiss` (exact inner product); 2689 title queries, 152
 
 ### Generation
 
-| Variant (test n) | Gate pass rate | Product SSIM | Colour ΔE | Mask IoU | Product CLIP sim | Prompt margin | Seconds/image |
+| Variant (test n) | Gate pass rate (95% CI) | Product SSIM | Colour ΔE | Mask IoU | Product CLIP sim | Prompt margin | Seconds/image |
 |---|---|---|---|---|---|---|---|
-| composite (20) | 80.0% | 0.999 | 0.08 | 0.975 | 0.999 | 0.109 | 5.58 |
-| harmonized@0.35 (20) | 0.0% | 0.644 | 8.80 | 0.954 | 0.829 | 0.131 | 11.85 |
-| control@0.8 (20) | 0.0% | 0.538 | 12.97 | 0.891 | 0.765 | 0.155 | 8.84 |
+| composite (20) | 80.0% (58.4%–91.9%) | 0.999 | 0.08 | 0.975 | 0.999 | 0.109 | 5.58 |
+| harmonized@0.35 (20) | 0.0% (0.0%–16.1%) | 0.644 | 8.80 | 0.954 | 0.829 | 0.131 | 11.85 |
+| control@0.8 (20) | 0.0% (0.0%–16.1%) | 0.538 | 12.97 | 0.891 | 0.765 | 0.155 | 8.84 |
 
 Calibrated thresholds (calibration split): mask_iou 0.9572, product_similarity 0.9485, product_ssim 0.8413, colour_delta_e 3.9113; prompt_margin 0.03 (a priori). Failed checks on test: composite: {'mask_iou': 4, 'prompt_margin': 1}; harmonized@0.35: {'mask_iou': 8, 'product_similarity': 20, 'product_ssim': 19, 'colour_delta_e': 20}; control@0.8: {'mask_iou': 17, 'product_similarity': 20, 'product_ssim': 19, 'colour_delta_e': 20}.
 
@@ -101,8 +101,8 @@ Provider `local:Qwen/Qwen2.5-0.5B-Instruct`, 100 test-split products.
 - **Pattern labels are weak.** The dataset has no pattern field. An item gets a label only when its title contains exactly one of *striped / checked / printed / solid*, which covers 616 of 3,000. Plain items rarely say "solid", so this task is easier and noisier than a real pattern taxonomy.
 - **FashionSigLIP caveat.** Marqo lists KAGL (a version of this Kaggle dataset) among its evaluation sets. I could not confirm from the model card that it was kept out of training, so treat FashionSigLIP's numbers as possibly optimistic. Generic CLIP ViT-B/32 (LAION-2B) is the cleaner baseline.
 - **Search.** Titles repeat (e.g. "Puma Men Black T-shirt"), so a title query counts as a hit when *any* item with that exact title is retrieved; queries are deduplicated. The near-duplicate image test is a robustness check and is expected to be high. The "similar items, same type + colour" row is the harder relevance definition.
-- **Generation labels come from construction, not human judgement.** `composite` (product pixels untouched) is treated as acceptable and `control@0.8` (heavy img2img) as unacceptable. Gate thresholds for the preservation checks were fitted on a separate calibration split of 10 products, then applied unchanged to the 20 test products. With n=20, read the pass rates as ±~10 points.
-- **What the generation numbers say.** Whole-image img2img with SD-Turbo, even at strength 0.35, changes the garment (and redraws the model's face) enough that the product-fidelity checks reject every image. A global CLIP similarity alone barely notices this, which is why the gate also measures SSIM and ΔE inside the product mask. The practical design that follows: generate or harmonise the *scene* only and keep the product's pixels fixed (composite or masked inpainting), then gate. Most composite failures were rembg re-segmenting the product against a busy generated background (mask IoU), and those go to the review queue.
+- **Generation labels come from construction, not human judgement.** `composite` (product pixels untouched) is treated as acceptable and `control@0.8` (heavy img2img) as unacceptable. Gate thresholds for the preservation checks were fitted on a separate calibration split of 10 products, then applied unchanged to the 20 test products. With n=20 the intervals are wide; the table shows 95% Wilson intervals.
+- **What the generation numbers say.** The preservation thresholds sit between untouched composites and heavily damaged controls, so the gate encodes a strict policy: *product pixels must stay essentially unchanged*. Under that policy, whole-image img2img with SD-Turbo fails every time, even at strength 0.35 (mean SSIM 0.64, mean ΔE 8.8; the closest case had ΔE 4.11 against a 3.91 limit). That does not prove those images are unusable as pictures. It shows they no longer show the exact product, and I could also see the model's face being redrawn. A global CLIP similarity alone barely notices this, which is why the gate also measures SSIM and ΔE inside the product mask. The practical design that follows: generate or harmonise the *scene* only and keep the product's pixels fixed (composite or masked inpainting), then gate. Most composite failures were rembg re-segmenting the product against a busy generated background (mask IoU), and those go to the review queue.
 - **LLM copy numbers come from a 0.5B local model, not Claude or OpenAI.** No API keys were used in this project. `Qwen2.5-0.5B-Instruct` runs locally so the guardrail metrics come from real LLM output at zero cost. The Anthropic and OpenAI providers are implemented but have **not** been run here, so there are no numbers for them. The "minimal" row is an ablation: the same model with no content rules in its prompt.
 - **Guardrails are rules, not understanding.** They catch the failure types listed in `guardrails.py` (materials, claims, colours, competitor names, alt-text format) and miss paraphrases outside those lists. For example, one flagged guarded-prompt draft also said a top was "designed to keep you cool and dry", a performance claim the rules did not catch. Every violation in the logged examples was a real one, but I did not label a full sample, so guardrail recall is unmeasured. Repair rarely worked with a 0.5B model; failing drafts mostly fell through to the safe template, which is the intended behaviour.
 
@@ -116,7 +116,7 @@ pytest                                 # fast, no models
 uvicorn cvlab.api:app --reload         # CVLAB_BACKEND=stub by default
 ```
 
-Real models and the eval scripts (first run downloads a ~140 MB dataset slice, CLIP, FashionSigLIP, U²-Net, SD-Turbo and Qwen2.5-0.5B, about 5 GB in total, into the usual caches):
+Real models and the eval scripts (first run downloads one ~400 MB parquet shard of the dataset plus CLIP, FashionSigLIP, U²-Net, SD-Turbo and Qwen2.5-0.5B, roughly 5–6 GB in total, into the usual caches):
 
 ```bash
 uv pip install -e ".[gen,llm,dev]"
