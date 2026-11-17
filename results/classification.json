@@ -1,0 +1,163 @@
+{
+  "name": "classification",
+  "seed": 13,
+  "generated_at": "2026-11-17T12:48:29",
+  "environment": {
+    "python": "3.11.16",
+    "machine": "arm64",
+    "platform": "macOS-26.6.2",
+    "cpu": "Apple M5",
+    "torch": "2.15.0"
+  },
+  "dataset": {
+    "n_products": 3000,
+    "n_train": 2100,
+    "n_test": 900,
+    "split": "by product id, 70/30"
+  },
+  "tasks": {
+    "category": {
+      "n_classes": 25,
+      "n_train": 2100,
+      "n_test": 900,
+      "labels": [
+        "Bra",
+        "Briefs",
+        "Capris",
+        "Casual Shoes",
+        "Dresses",
+        "Flats",
+        "Flip Flops",
+        "Formal Shoes",
+        "Heels",
+        "Innerwear Vests",
+        "Jackets",
+        "Jeans",
+        "Kurtas",
+        "Sandals",
+        "Sarees",
+        "Shirts",
+        "Shorts",
+        "Sports Shoes",
+        "Sweaters",
+        "Sweatshirts",
+        "Tops",
+        "Track Pants",
+        "Trousers",
+        "Tshirts",
+        "Tunics"
+      ],
+      "majority_baseline_acc": 0.0689,
+      "clip-vit-b32": {
+        "zero_shot": {
+          "accuracy": 0.69,
+          "macro_f1": 0.6943
+        },
+        "linear_probe": {
+          "accuracy": 0.8511,
+          "macro_f1": 0.8487
+        }
+      },
+      "fashion-siglip": {
+        "zero_shot": {
+          "accuracy": 0.7633,
+          "macro_f1": 0.77
+        },
+        "linear_probe": {
+          "accuracy": 0.8711,
+          "macro_f1": 0.8632
+        }
+      }
+    },
+    "colour": {
+      "n_classes": 10,
+      "n_train": 1752,
+      "n_test": 749,
+      "labels": [
+        "Black",
+        "Blue",
+        "Brown",
+        "Green",
+        "Grey",
+        "Navy Blue",
+        "Pink",
+        "Purple",
+        "Red",
+        "White"
+      ],
+      "majority_baseline_acc": 0.287,
+      "clip-vit-b32": {
+        "zero_shot": {
+          "accuracy": 0.7103,
+          "macro_f1": 0.7071
+        },
+        "linear_probe": {
+          "accuracy": 0.7971,
+          "macro_f1": 0.7621
+        }
+      },
+      "fashion-siglip": {
+        "zero_shot": {
+          "accuracy": 0.7837,
+          "macro_f1": 0.762
+        },
+        "linear_probe": {
+          "accuracy": 0.7997,
+          "macro_f1": 0.7566
+        }
+      }
+    },
+    "pattern": {
+      "n_classes": 4,
+      "n_train": 438,
+      "n_test": 178,
+      "labels": [
+        "checked",
+        "printed",
+        "solid",
+        "striped"
+      ],
+      "majority_baseline_acc": 0.4551,
+      "clip-vit-b32": {
+        "zero_shot": {
+          "accuracy": 0.8652,
+          "macro_f1": 0.8423
+        },
+        "linear_probe": {
+          "accuracy": 0.882,
+          "macro_f1": 0.8651
+        }
+      },
+      "fashion-siglip": {
+        "zero_shot": {
+          "accuracy": 0.8427,
+          "macro_f1": 0.822
+        },
+        "linear_probe": {
+          "accuracy": 0.9101,
+          "macro_f1": 0.8937
+        }
+      }
+    }
+  },
+  "models": {
+    "clip-vit-b32": {
+      "open_clip": [
+        "ViT-B-32",
+        "laion2b_s34b_b79k"
+      ],
+      "dim": 512,
+      "embed_seconds_total": 15.1,
+      "embed_ms_per_image": 5.03
+    },
+    "fashion-siglip": {
+      "open_clip": [
+        "hf-hub:Marqo/marqo-fashionSigLIP",
+        null
+      ],
+      "dim": 768,
+      "embed_seconds_total": 41.85,
+      "embed_ms_per_image": 13.95
+    }
+  }
+}
